@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Katta Jaya Saatvik Rahul — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&family=Cormorant+Garamond:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080608;
+    --bg2: #100a0a;
+    --fg: #f5ede0;
+    --red: #c0001a;
+    --red-bright: #ff1a35;
+    --red-dim: #7a0011;
+    --gold: #c9a84c;
+    --gold-bright: #f0c96a;
+    --gold-dim: #7a5e1a;
+    --card: #0e0809;
+    --border: rgba(201,168,76,0.15);
+    --border-red: rgba(192,0,26,0.25);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+  }
+
+  /* ── TRAILING DOT CURSOR ── */
+  .trail-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 99999;
+    transform: translate(-50%, -50%);
+    background: var(--gold);
+    box-shadow: 0 0 6px var(--gold);
+    transition: opacity 0.1s;
+  }
+
+  /* ── NOISE ── */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9000;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.4rem 7vw;
+    background: rgba(8,6,8,0.75);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.7rem;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    text-shadow: 0 0 20px rgba(201,168,76,0.5);
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,237,224,0.45);
+    text-decoration: none;
+    transition: color 0.3s;
+    cursor: pointer;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 7rem 7vw 5rem;
+    position: relative; overflow: hidden;
+  }
+
+  .hero-vignette {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(192,0,26,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 80%, rgba(201,168,76,0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 0%, rgba(120,0,10,0.15) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .drip-bg {
+    position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+  }
+  .drip {
+    position: absolute; top: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--red-dim), transparent);
+    opacity: 0.3;
+    animation: drip-fall linear infinite;
+  }
+  @keyframes drip-fall {
+    0%   { transform: translateY(-100%); opacity: 0; }
+    10%  { opacity: 0.4; }
+    90%  { opacity: 0.2; }
+    100% { transform: translateY(100vh); opacity: 0; }
+  }
+
+  .hero-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.8rem;
+    opacity: 0; animation: fadeUp 0.9s 0.2s forwards;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 40px; height: 1px;
+    background: linear-gradient(to right, var(--gold), transparent);
+  }
+
+  .hero-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 11vw, 10.5rem);
+    line-height: 0.88; letter-spacing: 0.01em;
+    margin-bottom: 1.8rem;
+    opacity: 0; animation: fadeUp 0.9s 0.4s forwards;
+  }
+  .hero-name .line-red  { color: var(--red-bright); text-shadow: 0 0 40px rgba(255,26,53,0.4); }
+  .hero-name .line-gold { color: var(--gold); text-shadow: 0 0 40px rgba(201,168,76,0.4); }
+  .hero-name .line-outline {
+    -webkit-text-stroke: 2px rgba(245,237,224,0.3);
+    color: transparent;
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.35rem); font-weight: 300;
+    color: rgba(245,237,224,0.55); max-width: 480px;
+    line-height: 1.7; letter-spacing: 0.02em;
+    opacity: 0; animation: fadeUp 0.9s 0.65s forwards;
+  }
+
+  .hero-tags {
+    display: flex; flex-wrap: wrap; gap: 0.7rem;
+    margin-top: 2.5rem;
+    opacity: 0; animation: fadeUp 0.9s 0.85s forwards;
+  }
+  .tag {
+    padding: 0.45rem 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245,237,224,0.5);
+    background: rgba(201,168,76,0.04);
+    transition: all 0.35s; cursor: pointer;
+    position: relative; overflow: hidden;
+  }
+  .tag::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--red), var(--gold-dim));
+    opacity: 0; transition: opacity 0.35s;
+  }
+  .tag:hover { color: var(--fg); border-color: var(--gold); transform: translateY(-2px); }
+  .tag:hover::before { opacity: 1; }
+  .tag span { position: relative; z-index: 1; }
+
+  .scroll-cue {
+    position: absolute; bottom: 3rem; left: 7vw;
+    display: flex; align-items: center; gap: 1rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.2em;
+    color: rgba(245,237,224,0.3);
+    opacity: 0; animation: fadeUp 0.9s 1.3s forwards;
+  }
+  .scroll-line {
+    width: 50px; height: 1px;
+    background: var(--gold-dim);
+    position: relative; overflow: hidden;
+  }
+  .scroll-line::after {
+    content: '';
+    position: absolute; top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: var(--gold);
+    animation: lineShine 2.5s ease-in-out infinite;
+  }
+  @keyframes lineShine { 0% { left: -100%; } 100% { left: 200%; } }
+
+  .hero-sigil {
+    position: absolute; right: 7vw; top: 50%; transform: translateY(-50%);
+    text-align: center;
+    opacity: 0; animation: fadeUp 1s 1s forwards;
+  }
+  .sigil-year {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 7rem; line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(201,168,76,0.2);
+  }
+  .sigil-sub {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem; letter-spacing: 0.3em;
+    color: rgba(201,168,76,0.3);
+    text-transform: uppercase; margin-top: 0.3rem;
+  }
+  .sigil-line {
+    width: 1px; height: 80px;
+    background: linear-gradient(to bottom, var(--gold-dim), transparent);
+    margin: 1rem auto;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(35px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── MARQUEE ── */
+  .marquee-section {
+    padding: 1.4rem 0;
+    background: var(--red);
+    overflow: hidden; white-space: nowrap;
+    border-top: 1px solid var(--red-dim);
+    border-bottom: 1px solid var(--red-dim);
+    position: relative;
+  }
+  .marquee-section::before, .marquee-section::after {
+    content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 1;
+  }
+  .marquee-section::before { left: 0; background: linear-gradient(to right, var(--red), transparent); }
+  .marquee-section::after  { right: 0; background: linear-gradient(to left, var(--red), transparent); }
+  .marquee-track {
+    display: inline-flex; gap: 2.5rem;
+    animation: marquee 18s linear infinite;
+  }
+  .marquee-track span {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem; letter-spacing: 0.12em;
+    color: rgba(8,6,8,0.85);
+  }
+  .marquee-track .sep { color: rgba(8,6,8,0.35); }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ── SECTIONS ── */
+  section { padding: 8rem 7vw; }
+  .s-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.35em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 0.8rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .s-label::before {
+    content: ''; display: inline-block;
+    width: 25px; height: 1px; background: var(--gold);
+  }
+  .s-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.8rem, 6.5vw, 5.5rem);
+    line-height: 1; margin-bottom: 3.5rem; letter-spacing: 0.01em;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 6rem; align-items: center;
+    background: var(--bg2);
+    border-top: 1px solid var(--border-red);
+    border-bottom: 1px solid var(--border-red);
+  }
+  .about-p {
+    color: rgba(245,237,224,0.65); line-height: 1.85; font-size: 1.1rem;
+    margin-bottom: 1.2rem; font-weight: 300; letter-spacing: 0.01em;
+  }
+  .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .stat-card {
+    padding: 2rem 1.8rem;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 4px;
+    position: relative; overflow: hidden;
+    transition: transform 0.35s, border-color 0.35s; cursor: pointer;
+  }
+  .stat-card::before {
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(to right, var(--red), var(--gold));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .stat-card:hover { transform: translateY(-6px); border-color: rgba(201,168,76,0.35); }
+  .stat-card:hover::before { transform: scaleX(1); }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.8rem; line-height: 1;
+    color: var(--gold); text-shadow: 0 0 20px rgba(201,168,76,0.3);
+    margin-bottom: 0.3rem;
+  }
+  .stat-desc {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.1em;
+    color: rgba(245,237,224,0.4); text-transform: uppercase;
+  }
+
+  /* ── SKILLS ── */
+  #skills { position: relative; }
+  .skills-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;
+  }
+  .skill-card {
+    padding: 2rem; border: 1px solid var(--border);
+    border-radius: 4px; background: var(--card);
+    transition: all 0.35s; cursor: pointer;
+    position: relative; overflow: hidden;
+  }
+  .skill-card::after {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 3px; height: 0%;
+    background: linear-gradient(to bottom, var(--red-bright), var(--gold));
+    transition: height 0.5s cubic-bezier(0.16,1,0.3,1);
+  }
+  .skill-card:hover { transform: translateY(-7px); border-color: rgba(192,0,26,0.4); }
+  .skill-card:hover::after { height: 100%; }
+  .skill-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+  .skill-name { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--fg); margin-bottom: 0.5rem; }
+  .skill-desc { font-size: 0.9rem; color: rgba(245,237,224,0.45); line-height: 1.6; font-weight: 300; }
+  .skill-bar-track {
+    width: 100%; height: 2px;
+    background: rgba(201,168,76,0.1); margin-top: 1.2rem; border-radius: 10px; overflow: hidden;
+  }
+  .skill-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--red-bright), var(--gold));
+    width: 0%; transition: width 1.6s cubic-bezier(0.16,1,0.3,1); border-radius: 10px;
+  }
+
+  /* ── INTERNSHIP ── */
+  #internship { background: var(--bg2); }
+  .intern-card {
+    display: grid; grid-template-columns: 1fr 2fr;
+    gap: 4rem; align-items: start; padding: 3.5rem;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 4px; position: relative; overflow: hidden;
+  }
+  .intern-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 2px; background: linear-gradient(to right, var(--red-bright), var(--gold), transparent);
+  }
+  .live-dot {
+    position: absolute; top: 2.2rem; right: 2.2rem;
+    display: flex; align-items: center; gap: 0.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.15em;
+    color: var(--red-bright); text-transform: uppercase;
+  }
+  .live-dot::before {
+    content: ''; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--red-bright);
+    animation: blink 1.8s ease-in-out infinite;
+    box-shadow: 0 0 8px var(--red-bright);
+  }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
+  .intern-org {
+    font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; line-height: 1;
+    color: var(--gold); text-shadow: 0 0 30px rgba(201,168,76,0.25);
+  }
+  .intern-period {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.1em;
+    color: rgba(245,237,224,0.3); margin-top: 0.6rem;
+  }
+  .domain-badge {
+    display: inline-block; margin-top: 1.2rem;
+    padding: 0.35rem 1rem;
+    border: 1px solid var(--border-red); border-radius: 2px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.12em;
+    color: var(--red-bright); background: rgba(192,0,26,0.08); text-transform: uppercase;
+  }
+  .intern-info h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--fg); margin-bottom: 1.5rem; }
+  .week-timeline { display: flex; flex-direction: column; gap: 0; margin-bottom: 2rem; }
+  .week-item { display: flex; gap: 1.5rem; }
+  .week-line { display: flex; flex-direction: column; align-items: center; }
+  .week-dot {
+    width: 11px; height: 11px; border-radius: 50%;
+    background: var(--red); border: 2px solid var(--bg2);
+    box-shadow: 0 0 10px var(--red); flex-shrink: 0; margin-top: 4px;
+  }
+  .week-connector { width: 1px; height: 45px; background: linear-gradient(to bottom, var(--red-dim), transparent); opacity: 0.4; }
+  .week-content { padding-bottom: 1.2rem; }
+  .week-label { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.18em; color: var(--gold); text-transform: uppercase; margin-bottom: 0.2rem; }
+  .week-title { font-size: 1rem; font-weight: 600; margin-bottom: 0.2rem; }
+  .week-tasks { font-size: 0.85rem; color: rgba(245,237,224,0.4); font-weight: 300; }
+
+  /* ── CONTACT ── */
+  #contact { text-align: center; }
+  .contact-inner { max-width: 580px; margin: 0 auto; }
+  .contact-inner p { color: rgba(245,237,224,0.55); line-height: 1.8; margin-bottom: 2.5rem; font-size: 1.1rem; font-weight: 300; }
+  .contact-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    padding: 0.9rem 2.5rem; border-radius: 2px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.12em;
+    text-transform: uppercase; text-decoration: none;
+    cursor: pointer; transition: all 0.35s; display: inline-block;
+  }
+  .btn-primary { background: var(--red); color: var(--fg); border: 1px solid var(--red); position: relative; overflow: hidden; }
+  .btn-primary::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--red-bright), var(--gold-dim)); opacity: 0; transition: opacity 0.35s; }
+  .btn-primary:hover { transform: translateY(-4px); box-shadow: 0 15px 35px rgba(192,0,26,0.35); }
+  .btn-primary:hover::before { opacity: 1; }
+  .btn-primary span { position: relative; z-index: 1; }
+  .btn-outline { border: 1px solid var(--border); color: rgba(245,237,224,0.6); }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-4px); box-shadow: 0 10px 30px rgba(201,168,76,0.15); }
+  .contact-info-box {
+    margin-top: 3rem; padding: 1.5rem;
+    background: var(--card); border: 1px solid var(--border); border-radius: 4px;
+    font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.05em;
+    color: rgba(245,237,224,0.3); line-height: 1.9;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center; padding: 2.5rem 7vw;
+    border-top: 1px solid var(--border);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.18em;
+    color: rgba(245,237,224,0.2); text-transform: uppercase;
+  }
+  footer span { color: var(--red); }
+
+  /* ── REVEAL ── */
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1);
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  .ornament { text-align: center; font-size: 1.2rem; color: var(--gold-dim); letter-spacing: 0.5em; padding: 2rem 0; opacity: 0.5; }
+
+  @media (max-width: 768px) {
+    #about { grid-template-columns: 1fr; gap: 3rem; }
+    .intern-card { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-sigil { display: none; }
+    nav { padding: 1rem 5vw; }
+    .nav-links { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+
+
+<!-- Nav -->
+<nav>
+  <div class="nav-logo">KJSR</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#internship">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-vignette"></div>
+  <div class="drip-bg" id="dripBg"></div>
+
+  <div class="hero-eyebrow">Web Developer · ShadowFox Intern 2026</div>
+
+  <h1 class="hero-name mag-target">
+    <div class="line-red">KATTA</div>
+    <div class="line-outline">JAYA</div>
+    <div>SAATVIK</div>
+    <div class="line-gold">RAHUL</div>
+  </h1>
+
+  <p class="hero-sub mag-target">
+    Building modern web experiences with a passion for clean code and creative interfaces. Currently leveling up at ShadowFox.
+  </p>
+
+  <div class="hero-tags">
+    <div class="tag"><span>HTML</span></div>
+    <div class="tag"><span>CSS</span></div>
+    <div class="tag"><span>JavaScript</span></div>
+    <div class="tag"><span>Web Dev</span></div>
+    <div class="tag"><span>UI/UX</span></div>
+    <div class="tag"><span>IARE</span></div>
+  </div>
+
+  <div class="scroll-cue">
+    <div class="scroll-line"></div>
+    Scroll to explore
+  </div>
+
+  <div class="hero-sigil">
+    <div class="sigil-line"></div>
+    <div class="sigil-year">2026</div>
+    <div class="sigil-sub">IARE · Batch</div>
+    <div class="sigil-line"></div>
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <span>Web Development</span><span class="sep">✦</span>
+    <span>ShadowFox Intern</span><span class="sep">✦</span>
+    <span>Crimson Code</span><span class="sep">✦</span>
+    <span>Real World Projects</span><span class="sep">✦</span>
+    <span>Frontend Craft</span><span class="sep">✦</span>
+    <span>Katta Saatvik</span><span class="sep">✦</span>
+    <span>Web Development</span><span class="sep">✦</span>
+    <span>ShadowFox Intern</span><span class="sep">✦</span>
+    <span>Crimson Code</span><span class="sep">✦</span>
+    <span>Real World Projects</span><span class="sep">✦</span>
+    <span>Frontend Craft</span><span class="sep">✦</span>
+    <span>Katta Saatvik</span><span class="sep">✦</span>
+  </div>
+</div>
+
+<!-- About -->
+<section id="about">
+  <div class="about-text reveal">
+    <div class="s-label">About Me</div>
+    <h2 class="s-title mag-target">WHO AM<br>I?</h2>
+    <p class="about-p">I'm Katta Jaya Saatvik Rahul, a passionate web developer from the Institute of Aeronautical Engineering. I thrive on turning ideas into real, interactive digital experiences.</p>
+    <p class="about-p">Currently deep in a Web Development internship at ShadowFox (Feb 1–28, 2026), building hands-on skills across beginner to advanced project levels.</p>
+    <p class="about-p">My goal: craft the web with intention, creativity, and code that actually works beautifully.</p>
+  </div>
+  <div class="about-stats reveal" style="transition-delay:0.2s">
+    <div class="stat-card">
+      <div class="stat-num">1</div>
+      <div class="stat-desc">Month Internship</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">4</div>
+      <div class="stat-desc">Project Weeks</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">3+</div>
+      <div class="stat-desc">Core Tech Skills</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">∞</div>
+      <div class="stat-desc">Drive & Ambition</div>
+    </div>
+  </div>
+</section>
+
+<div class="ornament">✦ ✦ ✦</div>
+
+<!-- Skills -->
+<section id="skills">
+  <div class="s-label reveal">My Arsenal</div>
+  <h2 class="s-title reveal mag-target">SKILLS</h2>
+  <div class="skills-grid">
+    <div class="skill-card reveal" data-level="90">
+      <div class="skill-icon">🌐</div>
+      <div class="skill-name">HTML5</div>
+      <div class="skill-desc">Semantic markup, accessibility-first structure, and clean document hierarchy.</div>
+      <div class="skill-bar-track"><div class="skill-bar"></div></div>
+    </div>
+    <div class="skill-card reveal" data-level="85" style="transition-delay:0.1s">
+      <div class="skill-icon">🎨</div>
+      <div class="skill-name">CSS3</div>
+      <div class="skill-desc">Flexbox, Grid, animations, custom properties, and responsive layouts.</div>
+      <div class="skill-bar-track"><div class="skill-bar"></div></div>
+    </div>
+    <div class="skill-card reveal" data-level="75" style="transition-delay:0.2s">
+      <div class="skill-icon">⚡</div>
+      <div class="skill-name">JavaScript</div>
+      <div class="skill-desc">DOM manipulation, async programming, and interactive UIs from scratch.</div>
+      <div class="skill-bar-track"><div class="skill-bar"></div></div>
+    </div>
+    <div class="skill-card reveal" data-level="70" style="transition-delay:0.3s">
+      <div class="skill-icon">📐</div>
+      <div class="skill-name">UI Design</div>
+      <div class="skill-desc">User-centered design thinking, wireframing, and visual consistency.</div>
+      <div class="skill-bar-track"><div class="skill-bar"></div></div>
+    </div>
+    <div class="skill-card reveal" data-level="65" style="transition-delay:0.4s">
+      <div class="skill-icon">🛠️</div>
+      <div class="skill-name">Dev Tools</div>
+      <div class="skill-desc">Browser dev tools, version control concepts, and debugging workflows.</div>
+      <div class="skill-bar-track"><div class="skill-bar"></div></div>
+    </div>
+    <div class="skill-card reveal" data-level="80" style="transition-delay:0.5s">
+      <div class="skill-icon">🚀</div>
+      <div class="skill-name">Problem Solving</div>
+      <div class="skill-desc">Analytical thinking applied to building robust, scalable web solutions.</div>
+      <div class="skill-bar-track"><div class="skill-bar"></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="ornament">✦ ✦ ✦</div>
+
+<!-- Internship -->
+<section id="internship">
+  <div class="s-label reveal">Experience</div>
+  <h2 class="s-title reveal mag-target">INTERN-<br>SHIP</h2>
+  <div class="intern-card reveal">
+    <div class="live-dot">Active</div>
+    <div>
+      <div class="intern-org">SHADOW<br>FOX</div>
+      <div class="intern-period">01 FEB — 28 FEB 2026</div>
+      <div class="domain-badge">Web Development</div>
+    </div>
+    <div class="intern-info">
+      <h3>4-Week Sprint Program</h3>
+      <div class="week-timeline">
+        <div class="week-item">
+          <div class="week-line">
+            <div class="week-dot" style="background:var(--red-bright);box-shadow:0 0 10px var(--red-bright)"></div>
+            <div class="week-connector"></div>
+          </div>
+          <div class="week-content">
+            <div class="week-label">Week 1</div>
+            <div class="week-title">Project Level — Beginner</div>
+            <div class="week-tasks">Mentor kickoff · Self-paced learning · First project tasks</div>
+          </div>
+        </div>
+        <div class="week-item">
+          <div class="week-line">
+            <div class="week-dot" style="background:var(--gold);box-shadow:0 0 10px var(--gold)"></div>
+            <div class="week-connector"></div>
+          </div>
+          <div class="week-content">
+            <div class="week-label">Week 2</div>
+            <div class="week-title">Project Level — Intermediate</div>
+            <div class="week-tasks">Deeper project tasks · Continued self-paced learning</div>
+          </div>
+        </div>
+        <div class="week-item">
+          <div class="week-line">
+            <div class="week-dot" style="background:var(--gold-bright);box-shadow:0 0 10px var(--gold-bright)"></div>
+            <div class="week-connector"></div>
+          </div>
+          <div class="week-content">
+            <div class="week-label">Week 3</div>
+            <div class="week-title">Project Level — Advanced</div>
+            <div class="week-tasks">Doubts clarifying session · Complex project tasks</div>
+          </div>
+        </div>
+        <div class="week-item">
+          <div class="week-line">
+            <div class="week-dot" style="background:var(--red);box-shadow:0 0 10px var(--red)"></div>
+          </div>
+          <div class="week-content">
+            <div class="week-label">Week 4</div>
+            <div class="week-title">Advanced + Submission Q&A</div>
+            <div class="week-tasks">Final project wrap · PPT presentation submission</div>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:0.9rem; color:rgba(245,237,224,0.4); line-height:1.7; font-weight:300; font-style:italic;">
+        Working on real-time projects · Earning ShadowFox certification · Expanding professional network
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="s-label reveal" style="justify-content:center">Get In Touch</div>
+    <h2 class="s-title reveal mag-target">LET'S<br>CONNECT</h2>
+    <p class="reveal">I'm always open to interesting conversations, collaborations, and new opportunities. Drop a message and let's build something remarkable together.</p>
+    <div class="contact-links reveal">
+      <a href="/cdn-cgi/l/email-protection#a6cfc8c0c9e6d5cec7c2c9d1c0c9de88cfc8" class="btn btn-primary"><span>Email Me</span></a>
+      <a href="https://shadowfox.in" target="_blank" class="btn btn-outline">ShadowFox.in</a>
+    </div>
+    <div class="contact-info-box reveal">
+      📍 Institute of Aeronautical Engineering &nbsp;|&nbsp; Dundigal, Telangana, IN<br>
+      🎓 Web Development Intern @ ShadowFox &nbsp;|&nbsp; Feb 2026
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 Katta Jaya Saatvik Rahul &nbsp;<span>✦</span>&nbsp; Crafted with Blood, Gold & Code &nbsp;<span>✦</span>&nbsp; ShadowFox Intern
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── TRAILING DOTS CURSOR ──
+const TRAIL_COUNT = 16;
+const trail = [];
+
+for (let i = 0; i < TRAIL_COUNT; i++) {
+  const el = document.createElement('div');
+  el.className = 'trail-dot';
+  const ratio = 1 - i / TRAIL_COUNT;
+  el.style.width  = (7 * ratio) + 'px';
+  el.style.height = (7 * ratio) + 'px';
+  el.style.opacity = ratio * 0.85;
+  // Shift from gold to red as dots age
+  const r = Math.round(192 + (255 - 192) * ratio);
+  const g = Math.round(0   + (26  - 0)   * (1 - ratio));
+  const b = Math.round(26  * (1 - ratio));
+  el.style.background  = `rgb(${r},${g},${b})`;
+  el.style.boxShadow   = `0 0 ${4 * ratio}px rgb(${r},${g},${b})`;
+  document.body.appendChild(el);
+  trail.push({ el, x: -100, y: -100 });
+}
+
+let mouseX = -100, mouseY = -100;
+document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+
+(function animateTrail() {
+  // Each dot chases the one ahead of it
+  trail[0].x += (mouseX - trail[0].x) * 0.35;
+  trail[0].y += (mouseY - trail[0].y) * 0.35;
+  for (let i = 1; i < TRAIL_COUNT; i++) {
+    trail[i].x += (trail[i-1].x - trail[i].x) * 0.35;
+    trail[i].y += (trail[i-1].y - trail[i].y) * 0.35;
+  }
+  trail.forEach(t => {
+    t.el.style.left = t.x + 'px';
+    t.el.style.top  = t.y + 'px';
+  });
+  requestAnimationFrame(animateTrail);
+})();
+
+// ── BLOOD DRIP LINES ──
+const dripBg = document.getElementById('dripBg');
+for (let i = 0; i < 14; i++) {
+  const d = document.createElement('div');
+  d.className = 'drip';
+  d.style.cssText = `left:${Math.random()*100}%;height:${70+Math.random()*220}px;animation-duration:${4+Math.random()*9}s;animation-delay:${Math.random()*-12}s;`;
+  dripBg.appendChild(d);
+}
+
+// ── SCROLL REVEAL + SKILL BARS ──
+new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      const bar = e.target.querySelector('.skill-bar');
+      if (bar) setTimeout(() => { bar.style.width = e.target.dataset.level + '%'; }, 300);
+    }
+  });
+}, { threshold: 0.12 }).observe
+// observing all .reveal
+;
+(function() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        const bar = e.target.querySelector('.skill-bar');
+        if (bar) setTimeout(() => { bar.style.width = e.target.dataset.level + '%'; }, 300)
